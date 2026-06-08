@@ -1,10 +1,16 @@
-# Selenium project
- Automated Testing in .Net Final Task
+# E-Commerce Platform Test Automation Framework
+Automated UI test framework built with C#, .NET, Selenium WebDriver, and MSTest to validate critical authentication workflows in the SauceDemo web application.
 
-## Task Description
-The task is to automate the following scenarios:
+## Overview
+Selenium-based automated testing framework designed to validate key functionalities of an e-commerce web application.
+This project demonstrates the implementation of a scalable test automation framework using industry-standard design patterns and best practices.
 
-Open the browser and navigate to the URL: https://www.saucedemo.com/
+## Application Under Test
+The application under test is SauceDemo, a sample e-commerce platform commonly used for automation practice.
+
+**URL**: https://www.saucedemo.com/
+
+## Test Scenarios (sample)
 
 UC-1 Test Login form with empty credentials:
 1. Type any credentials into "Username" and "Password" fields.
@@ -24,23 +30,50 @@ UC-3 Test Login form with credentials by passing Username & Password:
 2. Enter password as secret sauce.
 3. Click on Login and validate the title “Swag Labs” in the dashboard.
 
-## Features
-- Scenarios fully automated.
-- Parallel execution.
-- Logging.
-- Data provider to parametrize the test cases.
-- Page Object Model.
-- XPath locators.
-- Fluent assertions.
+## Framework Architecture
+The framework follows the Page Object Model (POM) design pattern to improve maintainability, readability, and reusability.
 
-## Technologies Used
-- **Selenium WebDriver**: Used to interact with browsers.
-- **Edge and Chrome**: Browsers used for testing.
+## Key Features
+- Page Object Model (POM)
+- Data-driven testing
+- Parallel test execution
+- Structured logging
+- Reusable page components
+- Fluent assertions
+- Cross-browser support
+- Scalable test architecture
+
+## Technologies Stack
+- **C#**: Programming language.
+- **.NET**: Application framework
+- **Selenium WebDriver**: Browser automation.
 - **MSTest Framework**: Unit test framework.
-- **NLog**: Used for logging.
-- **C#**: For creating the automated scenarios.
+- **Fluent Assertions**: Readable assertions
+- **NLog**: Logging and diagnostics.
+- **Edge and Chrome**: Browsers used for testing.
+
+## Design Patterns and Practices
+### Page Object Model
+All page interactions are encapsulated within dedicated page classes, separating test logic from UI element implementation.
+
+### Data-Driven Testing
+Test cases are parameterized using MSTest data providers, allowing multiple datasets to be executed without duplicating test code.
+
+### Parallel Execution
+Tests can run concurrently to reduce execution time and improve feedback cycles.
+
+### Logging
+NLog provides detailed execution logs to assist with troubleshooting and test result analysis.
+
+## Prerequisites
+- .NET SDK 8.0 or later
+- Google Chrome or Microsoft Edge
+- Visual Studio 2022 (recommended)
 
 ## Installation
 
 1. Clone the repository:
-   git clone https://github.com/rodriguez-robcar/FinalTask.git
+   git clone https://github.com/rodriguez-robcar/selenium-project.git
+
+## Author
+Roberto Carlos Rodriguez Torres
