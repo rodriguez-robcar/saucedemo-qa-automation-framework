@@ -1,0 +1,38 @@
+trigger:
+- main
+
+schedules:
+- cron: "0 14 * * *"
+  displayName: Daily Run
+  branches:
+    include:
+    - main
+  always: true
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '8.0.x'
+
+- script: dotnet restore
+  displayName: Restore packages
+
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: Build solution
+
+- script: dotnet test --configuration $(buildConfiguration) --logger trx
+  displayName: Run tests
+
+- task: PublishTestResults@2
+  condition: always()
+  inputs:
+    testResultsFormat: 'VSTest'
+    testResultsFiles: '**/*.trx'
