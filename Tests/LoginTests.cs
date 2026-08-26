@@ -1,14 +1,14 @@
-﻿// <copyright file="Tests.cs" company="PlaceholderCompany">
+﻿// <copyright file="LoginTests.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace Final_Task.Tests
+namespace SauceDemo.LoginTests
 {
-    using Final_Task.PageObject.Pages;
-    using Final_Task.Utils;
     using FluentAssertions;
     using NLog;
     using OpenQA.Selenium;
+    using SauceDemo.PageObject.Pages;
+    using SauceDemo.Utils;
 
     /// <summary>
     /// Class that contains all test cases.

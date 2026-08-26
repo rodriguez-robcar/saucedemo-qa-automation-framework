@@ -2,7 +2,7 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace Final_Task.PageObject.Pages
+namespace SauceDemo.PageObject.Pages
 {
     using System;
     using System.Runtime.InteropServices;

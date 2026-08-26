@@ -1,0 +1,100 @@
+﻿// <copyright file="InventoryTests.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace SauceDemo.InventoryTests
+{
+    using FluentAssertions;
+    using NLog;
+    using OpenQA.Selenium;
+    using SauceDemo.PageObject.Pages;
+    using SauceDemo.Utils;
+
+    /// <summary>
+    /// Class that contains all test cases.
+    /// </summary>
+    [TestClass]
+    public sealed class Tests
+    {
+        /// <summary>
+        /// Instance field.
+        /// </summary>
+        required public WebDriverSingleton Instance;
+
+        /// <summary>
+        /// Driver field.
+        /// </summary>
+        required public IWebDriver Driver;
+
+        /// <summary>
+        /// LoginPage field.
+        /// </summary>
+        required public LoginPage LoginPage;
+
+        /// <summary>
+        /// InventoryPage field.
+        /// </summary>
+        required public InventoryPage InventoryPage;
+
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        /// <summary>
+        /// Sets webdriver and creates an instance of the LoginPage class before each test.
+        /// </summary>
+        [TestInitialize]
+        public void Initialize()
+        {
+            this.Instance = WebDriverSingleton.GetInstance("chrome");
+            this.Driver = this.Instance.GetDriver();
+            this.LoginPage = new LoginPage(this.Driver);
+            Logger.Info("Tests started.");
+
+            this.InventoryPage = new InventoryPage(this.Driver);
+            this.LoginPage.Open().LoginWithUsernameAndPassword("standard_user", "secret_sauce");
+            Logger.Info("Logged in with standard_user credentials.");
+        }
+
+        /// <summary>
+        /// Test sorting of products by price or name from low to high and high to low.
+        /// </summary>
+        /// <param name="sortValue">Sort option value.</param>
+        /// <param name="field">Field to sort by.</param>
+        /// <param name="descending">Boolean value to indicate if the sort is descending.</param
+        [TestMethod]
+        [DataRow("az", "Name", false)]
+        [DataRow("za", "Name", true)]
+        [DataRow("lohi", "Price", false)]
+        [DataRow("hilo", "Price", true)]
+        public void Sorting_ShouldOrderProductsCorrectly(string sortValue, string field, bool descending)
+        {
+            Logger.Info("VerifySortingOfProducts started.");
+
+            Logger.Debug("Sorting products by " + field + " from " + (descending ? "high to low" : "low to high") + ".");
+            this.InventoryPage.SelectSortOption(sortValue);
+
+            Logger.Debug("Asserting that the products are sorted correctly.");
+            if (field == "Name")
+            {
+                var actual = this.InventoryPage.GetDisplayedProductNames();
+                TestAssertions.AssertSortCorrectly(actual, descending);
+            }
+            else
+            {
+                var actual = this.InventoryPage.GetDisplayedProductPrices();
+                TestAssertions.AssertSortCorrectly(actual, descending);
+            }
+
+            Logger.Info("VerifySortingOfProducts finished.");
+        }
+
+        /// <summary>
+        /// Quits driver and sets instance to null after each test.
+        /// </summary>
+        [TestCleanup]
+        public void Cleanup()
+        {
+            this.Instance.QuitDriver();
+            Logger.Info("Tests finished");
+        }
+    }
+}

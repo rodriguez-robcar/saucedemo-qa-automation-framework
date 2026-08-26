@@ -2,7 +2,7 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace Final_Task.Utils
+namespace SauceDemo.Utils
 {
     using OpenQA.Selenium;
     using OpenQA.Selenium.Chrome;
