@@ -53,6 +53,34 @@ namespace SauceDemo.PageObject.Pages
         }
 
         /// <summary>
+        /// Gets the list of image load statuses for products currently displayed on the page.
+        /// </summary>
+        /// <returns>Collection of image load statuses.</returns>
+        public List<bool> GetImageLoadStatuses()
+        {
+            var wait = new WebDriverWait(this.driver, TimeSpan.FromSeconds(5));
+            wait.Until(d => d.FindElements(By.CssSelector("img.inventory_item_img")).Count > 0);
+
+            var images = this.driver.FindElements(By.CssSelector("img.inventory_item_img")).ToList();
+
+            var jsExecutor = (IJavaScriptExecutor)this.driver;
+
+            return images.Select(img =>
+            {
+                try
+                {
+                    wait.Until(d =>
+                        Convert.ToInt64(jsExecutor.ExecuteScript("return arguments[0].naturalWidth", img)) > 0);
+                    return true;
+                }
+                catch (WebDriverTimeoutException)
+                {
+                    return false;
+                }
+            }).ToList();
+        }
+
+        /// <summary>
         /// Sorts products by price from low to high.
         /// </summary>
         /// <param name="value">Sort option value.</param>

@@ -14,7 +14,7 @@ namespace SauceDemo.LoginTests
     /// Class that contains all test cases.
     /// </summary>
     [TestClass]
-    public sealed class Tests
+    public sealed class LoginTests
     {
         /// <summary>
         /// Instance field.

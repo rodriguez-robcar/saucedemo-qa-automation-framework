@@ -14,7 +14,7 @@ namespace SauceDemo.InventoryTests
     /// Class that contains all test cases.
     /// </summary>
     [TestClass]
-    public sealed class Tests
+    public sealed class InventoryTests
     {
         /// <summary>
         /// Instance field.
@@ -85,6 +85,23 @@ namespace SauceDemo.InventoryTests
             }
 
             Logger.Info("VerifySortingOfProducts finished.");
+        }
+
+        /// <summary>
+        /// Test to verify that all product images are loaded correctly.
+        /// </summary>
+        [TestMethod]
+        public void VerifyAllProductImagesAreLoaded()
+        {
+            Logger.Info("VerifyAllProductImagesAreLoaded started.");
+
+            Logger.Debug("Getting the image load statuses for all products.");
+            var imageLoadStatuses = this.InventoryPage.GetImageLoadStatuses();
+
+            Logger.Debug("Asserting that all product images are loaded.");
+            imageLoadStatuses.Should().OnlyContain(status => status, "All product images should be loaded.");
+
+            Logger.Info("VerifyAllProductImagesAreLoaded finished.");
         }
 
         /// <summary>
