@@ -105,6 +105,33 @@ namespace SauceDemo.InventoryTests
         }
 
         /// <summary>
+        /// Test to verify that adding a product to the cart updates the cart badge and disables the 'Add to Cart' button.
+        /// </summary>
+        /// <param name="productName">Name of the product to add to the cart.</param>
+        [TestMethod]
+        [DataRow("backpack")]
+        [DataRow("bike-light")]
+        [DataRow("bolt-t-shirt")]
+
+        public void AddToCart_ShouldUpdateBadgeAndButtonState(string productName)
+        {
+            Logger.Info("AddToCart_ShouldUpdateBadgeAndButtonState started.");
+
+            Logger.Debug("Adding product to cart.");
+            this.InventoryPage.AddToCart(productName);
+
+            Logger.Debug("Asserting that the cart badge is updated.");
+            var cartBadgeCount = this.InventoryPage.GetCartBadgeCount();
+            cartBadgeCount.Should().Be(1, "Cart badge should show 1 item after adding a product to the cart.");
+
+            Logger.Debug("Asserting that the 'Add to Cart' button is disabled.");
+            var isRemoveButtonDisplayed = this.InventoryPage.IsRemoveButtonDisplayed(productName);
+            isRemoveButtonDisplayed.Should().BeTrue("'Add to Cart' button should be disabled after adding the product to the cart.");
+
+            Logger.Info("AddToCart_ShouldUpdateBadgeAndButtonState finished.");
+        }
+
+        /// <summary>
         /// Quits driver and sets instance to null after each test.
         /// </summary>
         [TestCleanup]

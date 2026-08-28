@@ -89,5 +89,43 @@ namespace SauceDemo.PageObject.Pages
             SelectElement selectElement = new SelectElement(this.ProductSortContainer);
             selectElement.SelectByValue(value);
         }
+
+        /// <summary>
+        /// Method to add a product to the cart by its name.
+        /// </summary>
+        /// <param name="productName">Name of the product to add.</param>
+        public void AddToCart(string productName)
+        {
+            this.driver.FindElement(By.XPath("//button[@id = 'add-to-cart-sauce-labs-" + productName.Replace(" ", "-").ToLower() + "']")).Click();
+        }
+
+        /// <summary>
+        /// Method to remove a product from the cart by its name.
+        /// </summary>
+        /// <param name="productName">Name of the product to remove.</param>
+        public void RemoveFromCart(string productName)
+        {
+            this.driver.FindElement(By.XPath("//button[@id ='remove-sauce-labs-" + productName.Replace(" ", "-").ToLower() + "']")).Click();
+        }
+
+        /// <summary>
+        /// Checks if the remove button for a product is displayed.
+        /// </summary>
+        /// <param name="productName">Name of the product to check.</param>
+        /// <returns>True if the remove button is displayed, otherwise false.</returns>
+        public bool IsRemoveButtonDisplayed(string productName)
+        {
+            return this.driver.FindElement(By.XPath("//button[@id ='remove-sauce-labs-" + productName.Replace(" ", "-").ToLower() + "']")).Displayed;
+        }
+
+        /// <summary>
+        /// Gets the count of items in the shopping cart badge.
+        /// </summary>
+        /// <returns>Count of items in the shopping cart badge.</returns>
+        public int GetCartBadgeCount()
+        {
+            var badgeElement = this.driver.FindElements(By.ClassName("shopping_cart_badge"));
+            return badgeElement.Count > 0 ? int.Parse(badgeElement[0].Text) : 0;
+        }
     }
 }
