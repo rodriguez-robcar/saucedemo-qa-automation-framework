@@ -132,6 +132,36 @@ namespace SauceDemo.InventoryTests
         }
 
         /// <summary>
+        /// Test to verify that adding multiple products to the cart updates the cart badge and disables the 'Add to Cart' buttons for those products.
+        /// </summary>
+        /// <param name="productNames">Array of product names to add to the cart.</param>
+        [TestMethod]
+        [DataRow(new string[] { "backpack", "bike-light", "bolt-t-shirt", "fleece-jacket", "onesie" })]
+        public void AddMultipleItems_ShouldUpdateBadgeAndButtonState(string[] productNames)
+        {
+            Logger.Info("AddMultipleItems_ShouldUpdateBadgeAndButtonState started.");
+
+            foreach (var productName in productNames)
+            {
+                Logger.Debug($"Adding product '{productName}' to cart.");
+                this.InventoryPage.AddToCart(productName);
+            }
+
+            Logger.Debug("Asserting that the cart badge is updated.");
+            var cartBadgeCount = this.InventoryPage.GetCartBadgeCount();
+            cartBadgeCount.Should().Be(productNames.Length, $"Cart badge should show {productNames.Length} items after adding multiple products to the cart.");
+
+            foreach (var productName in productNames)
+            {
+                Logger.Debug($"Asserting that the 'Add to Cart' button for '{productName}' is disabled.");
+                var isRemoveButtonDisplayed = this.InventoryPage.IsRemoveButtonDisplayed(productName);
+                isRemoveButtonDisplayed.Should().BeTrue($"'Add to Cart' button for '{productName}' should be disabled after adding the product to the cart.");
+            }
+
+            Logger.Info("AddMultipleItems_ShouldUpdateBadgeAndButtonState finished.");
+        }
+
+        /// <summary>
         /// Quits driver and sets instance to null after each test.
         /// </summary>
         [TestCleanup]
