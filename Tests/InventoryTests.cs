@@ -162,6 +162,31 @@ namespace SauceDemo.InventoryTests
         }
 
         /// <summary>
+        /// Test to verify that removing a product from the cart updates the cart badge and enables the 'Add to Cart' button for that product.
+        /// </summary>
+        /// <param name="productName">Name of the product to remove from the cart.</param>
+        [TestMethod]
+        [DataRow("backpack")]
+        public void RemoveFromCart_ShouldUpdateBadgeAndButtonState(string productName)
+        {
+            Logger.Info("RemoveFromCart_ShouldUpdateBadgeAndButtonState started.");
+
+            Logger.Debug("Adding product to cart.");
+            this.InventoryPage.AddToCart(productName);
+
+            Logger.Debug("Removing product from cart.");
+            this.InventoryPage.RemoveFromCart(productName);
+
+            Logger.Debug("Asserting that the cart badge is updated.");
+            var cartBadgeCount = this.InventoryPage.GetCartBadgeCount();
+            cartBadgeCount.Should().Be(0, "Cart badge should show 0 items after removing the product from the cart.");
+
+            Logger.Debug("Asserting that the 'Add to Cart' button is enabled.");
+            var isAddToCartButtonDisplayed = this.InventoryPage.IsAddToCartButtonDisplayed(productName);
+            isAddToCartButtonDisplayed.Should().BeTrue("'Add to Cart' button for '{productName}' should be enabled after removing the product from the cart.");
+        }
+
+        /// <summary>
         /// Quits driver and sets instance to null after each test.
         /// </summary>
         [TestCleanup]

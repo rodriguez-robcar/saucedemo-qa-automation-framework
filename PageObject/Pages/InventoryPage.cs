@@ -119,6 +119,16 @@ namespace SauceDemo.PageObject.Pages
         }
 
         /// <summary>
+        /// Checks if the add to cart button for a product is displayed.
+        /// </summary>
+        /// <param name="productName">Name of the product to check.</param>
+        /// <returns>True if the add to cart button is displayed, otherwise false.</returns
+        public bool IsAddToCartButtonDisplayed(string productName)
+        {
+            return this.driver.FindElement(By.XPath("//button[@id ='add-to-cart-sauce-labs-" + productName.Replace(" ", "-").ToLower() + "']")).Displayed;
+        }
+
+        /// <summary>
         /// Gets the count of items in the shopping cart badge.
         /// </summary>
         /// <returns>Count of items in the shopping cart badge.</returns>
