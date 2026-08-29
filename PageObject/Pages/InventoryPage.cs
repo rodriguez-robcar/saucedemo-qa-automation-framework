@@ -20,8 +20,6 @@ namespace SauceDemo.PageObject.Pages
         /// <param name="driver">WebDriver.</param>
         public InventoryPage(IWebDriver driver) => this.driver = driver ?? throw new ArgumentException(nameof(driver));
 
-        private IWebElement Title => this.driver.FindElement(By.XPath("//*[@class = 'app_logo']"));
-
         private IWebElement ProductSortContainer => this.driver.FindElement(By.XPath("//select[@class = 'product_sort_container']"));
 
         /// <summary>
@@ -30,7 +28,16 @@ namespace SauceDemo.PageObject.Pages
         /// <returns>Header web element.</returns>
         public IWebElement GetTitle()
         {
-            return this.Title;
+            return this.driver.FindElement(By.XPath("//*[@class = 'app_logo']"));
+        }
+
+        /// <summary>
+        /// Method that returns true if the product sort container element is displayed.
+        /// </summary>
+        /// <returns>Boolean indicating if the product sort container is displayed.</returns>
+        public bool GetProductSortContainer()
+        {
+            return this.ProductSortContainer.Displayed;
         }
 
         /// <summary>
@@ -136,6 +143,34 @@ namespace SauceDemo.PageObject.Pages
         {
             var badgeElement = this.driver.FindElements(By.ClassName("shopping_cart_badge"));
             return badgeElement.Count > 0 ? int.Parse(badgeElement[0].Text) : 0;
+        }
+
+        /// <summary>
+        /// Opens the product detail page for a specific product by its name.
+        /// </summary>
+        /// <param name="productName">Name of the product to open.</param>
+        public void OpenProductDetailPage(string productName)
+        {
+            this.driver.FindElement(By.XPath($"//div[@class='inventory_item_name' and text()='{productName}']")).Click();
+        }
+
+        /// <summary>
+        /// Gets the product name by its index in the inventory list.
+        /// </summary>
+        /// <param name="index">Index of the product.</param>
+        /// <returns>Product name.</returns>
+        public string GetProductNameByIndex(int index)
+        {
+            return this.driver.FindElements(By.ClassName("inventory_item_name"))[index].Text;
+        }
+
+        /// <summary>
+        /// Clicks on a product by its index in the inventory list to open its detail page.
+        /// </summary>
+        /// <param name="index">Index of the product to click.</param>
+        public void ClickProductByIndex(int index)
+        {
+            this.driver.FindElements(By.ClassName("inventory_item_name"))[index].Click();
         }
     }
 }
