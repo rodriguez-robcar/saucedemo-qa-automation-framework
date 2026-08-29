@@ -11,30 +11,11 @@ namespace SauceDemo.InventoryTests
     using SauceDemo.Utils;
 
     /// <summary>
-    /// Class that contains all test cases.
+    /// Class that contains all inventory test cases.
     /// </summary>
     [TestClass]
-    public sealed class InventoryTests
+    public class InventoryTests : BaseTest
     {
-        /// <summary>
-        /// Instance field.
-        /// </summary>
-        required public WebDriverSingleton Instance;
-
-        /// <summary>
-        /// Driver field.
-        /// </summary>
-        required public IWebDriver Driver;
-
-        /// <summary>
-        /// LoginPage field.
-        /// </summary>
-        required public LoginPage LoginPage;
-
-        /// <summary>
-        /// InventoryPage field.
-        /// </summary>
-        required public InventoryPage InventoryPage;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -42,13 +23,9 @@ namespace SauceDemo.InventoryTests
         /// Sets webdriver and creates an instance of the LoginPage class before each test.
         /// </summary>
         [TestInitialize]
-        public void Initialize()
+        public override void Initialize()
         {
-            this.Instance = WebDriverSingleton.GetInstance("chrome");
-            this.Driver = this.Instance.GetDriver();
-            this.LoginPage = new LoginPage(this.Driver);
-            Logger.Info("Tests started.");
-
+            base.Initialize();
             this.InventoryPage = new InventoryPage(this.Driver);
             this.LoginPage.Open().LoginWithUsernameAndPassword("standard_user", "secret_sauce");
             Logger.Info("Logged in with standard_user credentials.");
@@ -184,16 +161,6 @@ namespace SauceDemo.InventoryTests
             Logger.Debug("Asserting that the 'Add to Cart' button is enabled.");
             var isAddToCartButtonDisplayed = this.InventoryPage.IsAddToCartButtonDisplayed(productName);
             isAddToCartButtonDisplayed.Should().BeTrue("'Add to Cart' button for '{productName}' should be enabled after removing the product from the cart.");
-        }
-
-        /// <summary>
-        /// Quits driver and sets instance to null after each test.
-        /// </summary>
-        [TestCleanup]
-        public void Cleanup()
-        {
-            this.Instance.QuitDriver();
-            Logger.Info("Tests finished");
         }
     }
 }

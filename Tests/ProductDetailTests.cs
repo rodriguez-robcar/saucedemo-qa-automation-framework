@@ -6,36 +6,14 @@ namespace SauceDemo.ProductDetailsTests
 {
     using FluentAssertions;
     using NLog;
-    using OpenQA.Selenium;
     using SauceDemo.PageObject.Pages;
-    using SauceDemo.Utils;
 
     /// <summary>
     /// Class that contains all elements and methods of the ProductDetailPage.
     /// </summary>
     [TestClass]
-    public sealed class ProductDetailTests
+    public class ProductDetailTests : BaseTest
     {
-/// <summary>
-        /// Instance field.
-        /// </summary>
-        required public WebDriverSingleton Instance;
-
-        /// <summary>
-        /// Driver field.
-        /// </summary>
-        required public IWebDriver Driver;
-
-        /// <summary>
-        /// LoginPage field.
-        /// </summary>
-        required public LoginPage LoginPage;
-
-        /// <summary>
-        /// InventoryPage field.
-        /// </summary>
-        required public InventoryPage InventoryPage;
-
         required public ProductDetailPage ProductDetailPage;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -44,13 +22,9 @@ namespace SauceDemo.ProductDetailsTests
         /// Sets webdriver and creates an instance of the LoginPage class before each test.
         /// </summary>
         [TestInitialize]
-        public void Initialize()
+        public override void Initialize()
         {
-            this.Instance = WebDriverSingleton.GetInstance("chrome");
-            this.Driver = this.Instance.GetDriver();
-            this.LoginPage = new LoginPage(this.Driver);
-            Logger.Info("Tests started.");
-
+            base.Initialize();
             this.InventoryPage = new InventoryPage(this.Driver);
             this.ProductDetailPage = new ProductDetailPage(this.Driver);
             this.LoginPage.Open().LoginWithUsernameAndPassword("standard_user", "secret_sauce");
@@ -124,16 +98,6 @@ namespace SauceDemo.ProductDetailsTests
 
             Logger.Debug("Verifying that the user is navigated back to the inventory page.");
             this.InventoryPage.GetProductSortContainer().Should().BeTrue("User should be navigated back to the inventory page.");
-        }
-
-        /// <summary>
-        /// Test cleanup method to quit the WebDriver instance after each test.
-        /// </summary>
-        [TestCleanup]
-        public void Cleanup()
-        {
-            this.Instance.QuitDriver();
-            Logger.Info("Tests finished");
         }
     }
 }
