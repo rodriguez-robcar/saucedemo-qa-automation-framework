@@ -16,7 +16,6 @@ namespace SauceDemo.InventoryTests
     [TestClass]
     public class InventoryTests : BaseTest
     {
-
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>

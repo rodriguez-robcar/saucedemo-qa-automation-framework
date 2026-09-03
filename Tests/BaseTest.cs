@@ -1,3 +1,7 @@
+// <copyright file="BaseTest.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 namespace SauceDemo.PageObject.Pages
 {
     using NLog;

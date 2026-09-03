@@ -38,7 +38,6 @@ namespace SauceDemo.ProductDetailTests
         /// Test to verify that the product name on the inventory page matches the product name on the product detail page.
         /// </summary>
         /// <param name="productIndex">Index of the product to test.</param>
-
         [TestMethod]
         [DataRow(0)]
         [DataRow(1)]

@@ -43,6 +43,18 @@ namespace SauceDemo.PageObject.Pages
         }
 
         /// <summary>
+        /// Returns a collection of web elements after waiting for them to be present on the page.
+        /// </summary>
+        /// <param name="locator">Locator of the web elements.</param>
+        /// <param name="timeoutSeconds">Timeout in seconds.</param>
+        /// <returns>Collection of web elements.</returns>
+        public IReadOnlyCollection<IWebElement> WaitAndFindAll(By locator, int timeoutSeconds = 10)
+        {
+            var wait = new WebDriverWait(this.driver, TimeSpan.FromSeconds(timeoutSeconds));
+            return wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(locator));
+        }
+
+        /// <summary>
         /// Checks if an element is displayed on the page within a specified timeout.
         /// </summary>
         /// <param name="locator">Locator of the web element.</param>

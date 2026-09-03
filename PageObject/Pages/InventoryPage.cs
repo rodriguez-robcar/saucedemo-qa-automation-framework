@@ -21,7 +21,7 @@ namespace SauceDemo.PageObject.Pages
         {
         }
 
-        private IWebElement ProductSortContainer => this.Driver.FindElement(By.XPath("//select[@class = 'product_sort_container']"));
+        private IWebElement ProductSortContainer => this.WaitAndFind(By.XPath("//select[@class = 'product_sort_container']"));
 
         /// <summary>
         /// Method that returns the header element.
@@ -29,7 +29,7 @@ namespace SauceDemo.PageObject.Pages
         /// <returns>Header web element.</returns>
         public IWebElement GetTitle()
         {
-            return this.Driver.FindElement(By.XPath("//*[@class = 'app_logo']"));
+            return this.WaitAndFind(By.XPath("//*[@class = 'app_logo']"));
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace SauceDemo.PageObject.Pages
         /// <returns>Collection of product names.</returns>
         public List<string> GetDisplayedProductNames()
         {
-            return this.Driver.FindElements(By.ClassName("inventory_item_name")).Select(element => element.Text).ToList();
+            return this.WaitAndFindAll(By.ClassName("inventory_item_name")).Select(element => element.Text).ToList();
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace SauceDemo.PageObject.Pages
         /// <returns>Collection of product prices.</returns>
         public List<decimal> GetDisplayedProductPrices()
         {
-            return this.Driver.FindElements(By.ClassName("inventory_item_price"))
+            return this.WaitAndFindAll(By.ClassName("inventory_item_price"))
         .Select(element => decimal.Parse(element.Text.Replace("$", string.Empty))).ToList();
         }
 
@@ -142,9 +142,15 @@ namespace SauceDemo.PageObject.Pages
         /// <returns>Count of items in the shopping cart badge.</returns>
         public int GetCartBadgeCount()
         {
-            this.WaitAndFind(By.ClassName("shopping_cart_badge"));
-            var badgeElement = this.Driver.FindElements(By.ClassName("shopping_cart_badge"));
-            return badgeElement.Count > 0 ? int.Parse(badgeElement[0].Text) : 0;
+            try
+            {
+            var badgeElement = this.WaitAndFind(By.ClassName("shopping_cart_badge"));
+            return int.TryParse(badgeElement.Text, out var count) ? count : 0;
+            }
+            catch (WebDriverTimeoutException)
+            {
+                return 0;
+            }
         }
 
         /// <summary>
