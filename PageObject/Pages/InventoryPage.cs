@@ -142,6 +142,7 @@ namespace SauceDemo.PageObject.Pages
         /// <returns>Count of items in the shopping cart badge.</returns>
         public int GetCartBadgeCount()
         {
+            this.WaitAndFind(By.ClassName("shopping_cart_badge"));
             var badgeElement = this.Driver.FindElements(By.ClassName("shopping_cart_badge"));
             return badgeElement.Count > 0 ? int.Parse(badgeElement[0].Text) : 0;
         }

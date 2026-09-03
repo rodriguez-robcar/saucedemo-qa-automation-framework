@@ -1,8 +1,8 @@
-// <copyright file="ProductDetailsTests.cs" company="PlaceholderCompany">
+// <copyright file="ProductDetailTests.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace SauceDemo.ProductDetailsTests
+namespace SauceDemo.ProductDetailTests
 {
     using FluentAssertions;
     using NLog;
@@ -14,6 +14,9 @@ namespace SauceDemo.ProductDetailsTests
     [TestClass]
     public class ProductDetailTests : BaseTest
     {
+        /// <summary>
+        /// Gets or sets the ProductDetailPage instance.
+        /// </summary>
         required public ProductDetailPage ProductDetailPage;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -47,8 +50,7 @@ namespace SauceDemo.ProductDetailsTests
             Logger.Debug("Getting product name from inventory page.");
             var nameOnListing = this.InventoryPage.GetProductNameByIndex(productIndex);
             this.InventoryPage.ClickProductByIndex(productIndex);
-
-            this.ProductDetailPage.WaitForPageLoad();
+            this.ProductDetailPage.GetProductName();
 
             Logger.Debug("Getting product name from product detail page.");
             var productNameOnProductDetailPage = this.ProductDetailPage.GetProductName();
@@ -71,6 +73,7 @@ namespace SauceDemo.ProductDetailsTests
 
             Logger.Debug("Clicking 'Add to Cart' button on product detail page.");
             this.ProductDetailPage.ClickAddToCartButton();
+            this.ProductDetailPage.IsRemoveButtonDisplayed();
 
             Logger.Debug("Verifying that the product was added to the cart.");
             this.ProductDetailPage.IsRemoveButtonDisplayed().Should().BeTrue();
