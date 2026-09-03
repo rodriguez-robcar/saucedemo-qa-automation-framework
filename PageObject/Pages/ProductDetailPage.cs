@@ -83,5 +83,13 @@ namespace SauceDemo.PageObject.Pages
         {
             return this.IsElementDisplayed(By.XPath("//button[@id = 'add-to-cart']"));
         }
+
+        /// <summary>
+        /// Waits for the product detail page to fully load.
+        /// </summary>
+        public void WaitForPageLoad()
+        {
+            this.WaitAndFind(By.ClassName("inventory_details_name"));
+        }
     }
 }

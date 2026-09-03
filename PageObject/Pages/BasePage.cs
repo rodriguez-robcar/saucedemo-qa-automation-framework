@@ -59,6 +59,10 @@ namespace SauceDemo.PageObject.Pages
             {
                 return false;
             }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
         }
     }
 }

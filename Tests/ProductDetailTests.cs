@@ -48,6 +48,8 @@ namespace SauceDemo.ProductDetailsTests
             var nameOnListing = this.InventoryPage.GetProductNameByIndex(productIndex);
             this.InventoryPage.ClickProductByIndex(productIndex);
 
+            this.ProductDetailPage.WaitForPageLoad();
+
             Logger.Debug("Getting product name from product detail page.");
             var productNameOnProductDetailPage = this.ProductDetailPage.GetProductName();
 
