@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35913.81
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Selenium_Project", "Selenium_Project.csproj", "{90FA5562-6952-4E6A-9AD5-59975CC4567C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Selenium_Project", "Selenium_Project.csproj", "{90FA5562-6952-4E6A-9AD5-59975CC4567C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

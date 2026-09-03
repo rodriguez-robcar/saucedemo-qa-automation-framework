@@ -55,6 +55,18 @@ namespace SauceDemo.PageObject.Pages
         }
 
         /// <summary>
+        /// Waits for an element to be clickable and returns it.
+        /// </summary>
+        /// <param name="locator">Locator of the web element.</param>
+        /// <param name="timeoutSeconds">Timeout in seconds.</param>
+        /// <returns>Clickable web element.</returns>
+        protected IWebElement WaitAndFindClickable(By locator, int timeoutSeconds = 10)
+        {
+            var wait = new WebDriverWait(this.driver, TimeSpan.FromSeconds(timeoutSeconds));
+            return wait.Until(ExpectedConditions.ElementToBeClickable(locator));
+        }
+
+        /// <summary>
         /// Checks if an element is displayed on the page within a specified timeout.
         /// </summary>
         /// <param name="locator">Locator of the web element.</param>

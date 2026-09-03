@@ -104,7 +104,8 @@ namespace SauceDemo.PageObject.Pages
         /// <param name="productName">Name of the product to add.</param>
         public void AddToCart(string productName)
         {
-            this.Driver.FindElement(By.XPath("//button[@id = 'add-to-cart-sauce-labs-" + productName.Replace(" ", "-").ToLower() + "']")).Click();
+            var locator = By.XPath("//button[@id = 'add-to-cart-sauce-labs-" + productName.Replace(" ", "-").ToLower() + "']");
+            this.WaitAndFindClickable(locator).Click();
         }
 
         /// <summary>
@@ -113,7 +114,8 @@ namespace SauceDemo.PageObject.Pages
         /// <param name="productName">Name of the product to remove.</param>
         public void RemoveFromCart(string productName)
         {
-            this.Driver.FindElement(By.XPath("//button[@id ='remove-sauce-labs-" + productName.Replace(" ", "-").ToLower() + "']")).Click();
+            var locator = By.XPath("//button[@id = 'remove-sauce-labs-" + productName.Replace(" ", "-").ToLower() + "']");
+            this.WaitAndFindClickable(locator).Click();
         }
 
         /// <summary>
@@ -123,7 +125,8 @@ namespace SauceDemo.PageObject.Pages
         /// <returns>True if the remove button is displayed, otherwise false.</returns>
         public bool IsRemoveButtonDisplayed(string productName)
         {
-            return this.Driver.FindElement(By.XPath("//button[@id ='remove-sauce-labs-" + productName.Replace(" ", "-").ToLower() + "']")).Displayed;
+            var locator = By.XPath("//button[@id ='remove-sauce-labs-" + productName.Replace(" ", "-").ToLower() + "']");
+            return this.IsElementDisplayed(locator);
         }
 
         /// <summary>
@@ -133,7 +136,8 @@ namespace SauceDemo.PageObject.Pages
         /// <returns>True if the add to cart button is displayed, otherwise false.</returns
         public bool IsAddToCartButtonDisplayed(string productName)
         {
-            return this.Driver.FindElement(By.XPath("//button[@id ='add-to-cart-sauce-labs-" + productName.Replace(" ", "-").ToLower() + "']")).Displayed;
+            var locator = By.XPath("//button[@id ='add-to-cart-sauce-labs-" + productName.Replace(" ", "-").ToLower() + "']");
+            return this.IsElementDisplayed(locator);
         }
 
         /// <summary>
@@ -144,8 +148,8 @@ namespace SauceDemo.PageObject.Pages
         {
             try
             {
-            var badgeElement = this.WaitAndFind(By.ClassName("shopping_cart_badge"));
-            return int.TryParse(badgeElement.Text, out var count) ? count : 0;
+                var badgeElement = this.WaitAndFind(By.ClassName("shopping_cart_badge"));
+                return int.TryParse(badgeElement.Text, out var count) ? count : 0;
             }
             catch (WebDriverTimeoutException)
             {
@@ -159,7 +163,8 @@ namespace SauceDemo.PageObject.Pages
         /// <param name="productName">Name of the product to open.</param>
         public void OpenProductDetailPage(string productName)
         {
-            this.Driver.FindElement(By.XPath($"//div[@class='inventory_item_name' and text()='{productName}']")).Click();
+            var locator = By.XPath($"//div[@class='inventory_item_name' and text()='{productName}']");
+            this.WaitAndFindClickable(locator).Click();
         }
 
         /// <summary>
@@ -178,7 +183,9 @@ namespace SauceDemo.PageObject.Pages
         /// <param name="index">Index of the product to click.</param>
         public void ClickProductByIndex(int index)
         {
-            this.Driver.FindElements(By.ClassName("inventory_item_name"))[index].Click();
+            var products = this.WaitAndFindAll(By.ClassName("inventory_item_name"));
+            var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(10));
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(products.ElementAt(index))).Click();
         }
     }
 }
