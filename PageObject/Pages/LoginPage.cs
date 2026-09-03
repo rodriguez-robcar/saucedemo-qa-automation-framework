@@ -12,25 +12,26 @@ namespace SauceDemo.PageObject.Pages
     /// <summary>
     /// Class that contains all elements and methods of the LoginPage.
     /// </summary>
-    public class LoginPage
+    public class LoginPage : BasePage
     {
-        private readonly IWebDriver driver;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginPage"/> class.
         /// </summary>
         /// <param name="driver">Constructor receives the webdriver as parameter.</param>
-        public LoginPage(IWebDriver driver) => this.driver = driver ?? throw new ArgumentException(nameof(driver));
+        public LoginPage(IWebDriver driver)
+            : base(driver)
+        {
+        }
 
         private static string Url { get; } = "https://www.saucedemo.com/";
 
-        private IWebElement UsernameField => this.driver.FindElement(By.XPath("//input[@id = 'user-name']"));
+        private IWebElement UsernameField => this.WaitAndFind(By.XPath("//input[@id = 'user-name']"));
 
-        private IWebElement PasswordField => this.driver.FindElement(By.XPath("//input[@id = 'password']"));
+        private IWebElement PasswordField => this.WaitAndFind(By.XPath("//input[@id = 'password']"));
 
-        private IWebElement LoginButton => this.driver.FindElement(By.XPath("//input[@id = 'login-button']"));
+        private IWebElement LoginButton => this.WaitAndFind(By.XPath("//input[@id = 'login-button']"));
 
-        private IWebElement ErrorMessage => this.driver.FindElement(By.XPath("//*[@data-test = 'error']"));
+        private IWebElement ErrorMessage => this.WaitAndFind(By.XPath("//*[@data-test = 'error']"));
 
         /// <summary>
         /// Opens url and returns an instance of the <see cref="LoginPage"/> class.
@@ -38,7 +39,7 @@ namespace SauceDemo.PageObject.Pages
         /// <returns>Instance of the LoginPage class.</returns>
         public LoginPage Open()
         {
-            this.driver.Navigate().GoToUrl(Url);
+            this.Driver.Navigate().GoToUrl(Url);
             return this;
         }
 
@@ -52,7 +53,7 @@ namespace SauceDemo.PageObject.Pages
             this.UsernameField.SendKeys(username);
             this.PasswordField.SendKeys(password);
 
-            var clearFieldWait = new WebDriverWait(this.driver, TimeSpan.FromSeconds(10));
+            var clearFieldWait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(10));
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
@@ -83,7 +84,7 @@ namespace SauceDemo.PageObject.Pages
             this.UsernameField.SendKeys(username);
             this.PasswordField.SendKeys(password);
 
-            var clearFieldWait = new WebDriverWait(this.driver, TimeSpan.FromSeconds(10));
+            var clearFieldWait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(10));
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {

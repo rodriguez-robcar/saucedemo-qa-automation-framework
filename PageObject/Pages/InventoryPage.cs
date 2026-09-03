@@ -10,17 +10,18 @@ namespace SauceDemo.PageObject.Pages
     /// <summary>
     /// Class that contains all elements and methods of the InventoryPage.
     /// </summary>
-    public class InventoryPage
+    public class InventoryPage : BasePage
     {
-        private readonly IWebDriver driver;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="InventoryPage"/> class.
         /// </summary>
         /// <param name="driver">WebDriver.</param>
-        public InventoryPage(IWebDriver driver) => this.driver = driver ?? throw new ArgumentException(nameof(driver));
+        public InventoryPage(IWebDriver driver)
+            : base(driver)
+        {
+        }
 
-        private IWebElement ProductSortContainer => this.driver.FindElement(By.XPath("//select[@class = 'product_sort_container']"));
+        private IWebElement ProductSortContainer => this.Driver.FindElement(By.XPath("//select[@class = 'product_sort_container']"));
 
         /// <summary>
         /// Method that returns the header element.
@@ -28,7 +29,7 @@ namespace SauceDemo.PageObject.Pages
         /// <returns>Header web element.</returns>
         public IWebElement GetTitle()
         {
-            return this.driver.FindElement(By.XPath("//*[@class = 'app_logo']"));
+            return this.Driver.FindElement(By.XPath("//*[@class = 'app_logo']"));
         }
 
         /// <summary>
@@ -46,7 +47,7 @@ namespace SauceDemo.PageObject.Pages
         /// <returns>Collection of product names.</returns>
         public List<string> GetDisplayedProductNames()
         {
-            return this.driver.FindElements(By.ClassName("inventory_item_name")).Select(element => element.Text).ToList();
+            return this.Driver.FindElements(By.ClassName("inventory_item_name")).Select(element => element.Text).ToList();
         }
 
         /// <summary>
@@ -55,7 +56,7 @@ namespace SauceDemo.PageObject.Pages
         /// <returns>Collection of product prices.</returns>
         public List<decimal> GetDisplayedProductPrices()
         {
-            return this.driver.FindElements(By.ClassName("inventory_item_price"))
+            return this.Driver.FindElements(By.ClassName("inventory_item_price"))
         .Select(element => decimal.Parse(element.Text.Replace("$", string.Empty))).ToList();
         }
 
@@ -65,12 +66,12 @@ namespace SauceDemo.PageObject.Pages
         /// <returns>Collection of image load statuses.</returns>
         public List<bool> GetImageLoadStatuses()
         {
-            var wait = new WebDriverWait(this.driver, TimeSpan.FromSeconds(5));
+            var wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(5));
             wait.Until(d => d.FindElements(By.CssSelector("img.inventory_item_img")).Count > 0);
 
-            var images = this.driver.FindElements(By.CssSelector("img.inventory_item_img")).ToList();
+            var images = this.Driver.FindElements(By.CssSelector("img.inventory_item_img")).ToList();
 
-            var jsExecutor = (IJavaScriptExecutor)this.driver;
+            var jsExecutor = (IJavaScriptExecutor)this.Driver;
 
             return images.Select(img =>
             {
@@ -103,7 +104,7 @@ namespace SauceDemo.PageObject.Pages
         /// <param name="productName">Name of the product to add.</param>
         public void AddToCart(string productName)
         {
-            this.driver.FindElement(By.XPath("//button[@id = 'add-to-cart-sauce-labs-" + productName.Replace(" ", "-").ToLower() + "']")).Click();
+            this.Driver.FindElement(By.XPath("//button[@id = 'add-to-cart-sauce-labs-" + productName.Replace(" ", "-").ToLower() + "']")).Click();
         }
 
         /// <summary>
@@ -112,7 +113,7 @@ namespace SauceDemo.PageObject.Pages
         /// <param name="productName">Name of the product to remove.</param>
         public void RemoveFromCart(string productName)
         {
-            this.driver.FindElement(By.XPath("//button[@id ='remove-sauce-labs-" + productName.Replace(" ", "-").ToLower() + "']")).Click();
+            this.Driver.FindElement(By.XPath("//button[@id ='remove-sauce-labs-" + productName.Replace(" ", "-").ToLower() + "']")).Click();
         }
 
         /// <summary>
@@ -122,7 +123,7 @@ namespace SauceDemo.PageObject.Pages
         /// <returns>True if the remove button is displayed, otherwise false.</returns>
         public bool IsRemoveButtonDisplayed(string productName)
         {
-            return this.driver.FindElement(By.XPath("//button[@id ='remove-sauce-labs-" + productName.Replace(" ", "-").ToLower() + "']")).Displayed;
+            return this.Driver.FindElement(By.XPath("//button[@id ='remove-sauce-labs-" + productName.Replace(" ", "-").ToLower() + "']")).Displayed;
         }
 
         /// <summary>
@@ -132,7 +133,7 @@ namespace SauceDemo.PageObject.Pages
         /// <returns>True if the add to cart button is displayed, otherwise false.</returns
         public bool IsAddToCartButtonDisplayed(string productName)
         {
-            return this.driver.FindElement(By.XPath("//button[@id ='add-to-cart-sauce-labs-" + productName.Replace(" ", "-").ToLower() + "']")).Displayed;
+            return this.Driver.FindElement(By.XPath("//button[@id ='add-to-cart-sauce-labs-" + productName.Replace(" ", "-").ToLower() + "']")).Displayed;
         }
 
         /// <summary>
@@ -141,7 +142,7 @@ namespace SauceDemo.PageObject.Pages
         /// <returns>Count of items in the shopping cart badge.</returns>
         public int GetCartBadgeCount()
         {
-            var badgeElement = this.driver.FindElements(By.ClassName("shopping_cart_badge"));
+            var badgeElement = this.Driver.FindElements(By.ClassName("shopping_cart_badge"));
             return badgeElement.Count > 0 ? int.Parse(badgeElement[0].Text) : 0;
         }
 
@@ -151,7 +152,7 @@ namespace SauceDemo.PageObject.Pages
         /// <param name="productName">Name of the product to open.</param>
         public void OpenProductDetailPage(string productName)
         {
-            this.driver.FindElement(By.XPath($"//div[@class='inventory_item_name' and text()='{productName}']")).Click();
+            this.Driver.FindElement(By.XPath($"//div[@class='inventory_item_name' and text()='{productName}']")).Click();
         }
 
         /// <summary>
@@ -161,7 +162,7 @@ namespace SauceDemo.PageObject.Pages
         /// <returns>Product name.</returns>
         public string GetProductNameByIndex(int index)
         {
-            return this.driver.FindElements(By.ClassName("inventory_item_name"))[index].Text;
+            return this.Driver.FindElements(By.ClassName("inventory_item_name"))[index].Text;
         }
 
         /// <summary>
@@ -170,7 +171,7 @@ namespace SauceDemo.PageObject.Pages
         /// <param name="index">Index of the product to click.</param>
         public void ClickProductByIndex(int index)
         {
-            this.driver.FindElements(By.ClassName("inventory_item_name"))[index].Click();
+            this.Driver.FindElements(By.ClassName("inventory_item_name"))[index].Click();
         }
     }
 }
