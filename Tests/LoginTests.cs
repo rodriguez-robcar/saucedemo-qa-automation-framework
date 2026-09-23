@@ -2,7 +2,7 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace SauceDemo.LoginTests
+namespace SauceDemo.Tests
 {
     using FluentAssertions;
     using NLog;

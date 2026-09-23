@@ -2,11 +2,12 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace SauceDemo.PageObject.Pages
+namespace SauceDemo.Tests
 {
     using NLog;
     using OpenQA.Selenium;
     using OpenQA.Selenium.Chrome;
+    using SauceDemo.PageObject.Pages;
     using SauceDemo.Utils;
 
     /// <summary>
@@ -14,27 +15,27 @@ namespace SauceDemo.PageObject.Pages
     /// </summary>
     public abstract class BaseTest
     {
-        /// <summary>
-        /// Instance field.
-        /// </summary>
-        required public WebDriverSingleton Instance;
-
-        /// <summary>
-        /// Driver field.
-        /// </summary>
-        required public IWebDriver Driver;
-
-        /// <summary>
-        /// LoginPage field.
-        /// </summary>
-        required public LoginPage LoginPage;
-
-        /// <summary>
-        /// InventoryPage field.
-        /// </summary>
-        required public InventoryPage InventoryPage;
-
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        /// <summary>
+        /// Gets or sets instance field.
+        /// </summary>
+        required public WebDriverSingleton Instance { get; set; }
+
+        /// <summary>
+        /// Gets or sets driver field.
+        /// </summary>
+        required public IWebDriver Driver { get; set; }
+
+        /// <summary>
+        /// Gets or sets loginPage field.
+        /// </summary>
+        required public LoginPage LoginPage { get; set; }
+
+        /// <summary>
+        /// Gets or sets inventoryPage field.
+        /// </summary>
+        required public InventoryPage InventoryPage { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseTest"/> class.

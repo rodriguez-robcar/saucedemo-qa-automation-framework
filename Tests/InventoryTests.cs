@@ -2,11 +2,10 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace SauceDemo.InventoryTests
+namespace SauceDemo.Tests
 {
     using FluentAssertions;
     using NLog;
-    using OpenQA.Selenium;
     using SauceDemo.PageObject.Pages;
     using SauceDemo.Utils;
 

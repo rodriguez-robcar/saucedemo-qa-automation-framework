@@ -2,7 +2,7 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace SauceDemo.ProductDetailTests
+namespace SauceDemo.Tests
 {
     using FluentAssertions;
     using NLog;
@@ -14,12 +14,12 @@ namespace SauceDemo.ProductDetailTests
     [TestClass]
     public class ProductDetailTests : BaseTest
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         /// <summary>
         /// Gets or sets the ProductDetailPage instance.
         /// </summary>
-        required public ProductDetailPage ProductDetailPage;
-
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        required public ProductDetailPage ProductDetailPage { get; set; }
 
         /// <summary>
         /// Sets webdriver and creates an instance of the LoginPage class before each test.
