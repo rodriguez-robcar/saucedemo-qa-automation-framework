@@ -6,6 +6,7 @@ namespace SauceDemo.PageObject.Pages
 {
     using NLog;
     using OpenQA.Selenium;
+    using OpenQA.Selenium.Chrome;
     using SauceDemo.Utils;
 
     /// <summary>
@@ -42,8 +43,9 @@ namespace SauceDemo.PageObject.Pages
         [TestInitialize]
         public virtual void Initialize()
         {
-            this.Instance = WebDriverSingleton.GetInstance("chrome");
-            this.Driver = this.Instance.GetDriver();
+            // this.Instance = WebDriverSingleton.GetInstance("chrome");
+            // this.Driver = this.Instance.GetDriver();
+            this.Driver = new ChromeDriver(WebDriverOptions.GetChromeOptions());
             this.LoginPage = new LoginPage(this.Driver);
             Logger.Info("Tests started.");
         }
@@ -54,7 +56,8 @@ namespace SauceDemo.PageObject.Pages
         [TestCleanup]
         public virtual void Cleanup()
         {
-            this.Instance.QuitDriver();
+            // this.Instance.QuitDriver();
+            this.Driver.Quit();
             Logger.Info("Tests finished");
         }
     }
